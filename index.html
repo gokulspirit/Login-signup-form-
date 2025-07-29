@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Django URLs - Full Role Demo</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #f5f7fa;
+    }
+
+    h1 {
+      text-align: center;
+      color: #333;
+      margin-top: 2rem;
+    }
+
+    table {
+      width: 90%;
+      margin: 1rem auto;
+      border-collapse: collapse;
+      background-color: white;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    }
+
+    th, td {
+      padding: 12px 16px;
+      border-bottom: 1px solid #ddd;
+      text-align: left;
+    }
+
+    th {
+      background-color: #007BFF;
+      color: white;
+    }
+
+    tr:hover {
+      background-color: #f1f1f1;
+    }
+
+    .copy-btn {
+      background-color: #28a745;
+      border: none;
+      color: white;
+      padding: 6px 10px;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 0.9em;
+    }
+
+    .copy-btn:hover {
+      background-color: #218838;
+    }
+
+    .navbar {
+      display: flex;
+      justify-content: center;
+      gap: 1.2rem;
+      background-color: #007BFF;
+      padding: 1rem;
+      color: white;
+      font-weight: bold;
+      flex-wrap: wrap;
+    }
+
+    .navbar a {
+      color: white;
+      text-decoration: none;
+      font-size: 1rem;
+    }
+
+    .section {
+      display: none;
+    }
+
+    .active {
+      display: block;
+    }
+
+    .center {
+      text-align: center;
+      margin: 2rem;
+    }
+
+    button.switch-btn {
+      margin: 0.5rem;
+      padding: 10px 20px;
+      background-color: #007BFF;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+
+    button.switch-btn:hover {
+      background-color: #0056b3;
+    }
+
+    @media (max-width: 768px) {
+      table, th, td {
+        font-size: 0.9em;
+      }
+
+      .navbar {
+        flex-direction: column;
+        align-items: center;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- AUTH SECTION -->
+  <section id="auth-section" class="section active">
+    <h1>Authentication URLs</h1>
+    <table>
+      <thead>
+        <tr>
+          <th>URL Path</th>
+          <th>View Function</th>
+          <th>Purpose</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody id="auth-table-body"></tbody>
+    </table>
+    <div class="center">
+      <button class="switch-btn" onclick="showSection('home-section')">Go to User Home</button>
+      <button class="switch-btn" onclick="showSection('garage-section')">Go to Garage Dashboard</button>
+      <button class="switch-btn" onclick="showSection('admin-section')">Go to Admin Panel</button>
+    </div>
+  </section>
+
+  <!-- USER HOME SECTION -->
+  <section id="home-section" class="section">
+    <div class="navbar">
+      <a href="#">Garages</a>
+      <a href="#">Services</a>
+      <a href="#">Bookings</a>
+      <a href="#">Book</a>
+      <a href="#">Payments</a>
+      <a href="#">Review</a>
+      <a href="#" onclick="showSection('auth-section')">Logout</a>
+    </div>
+    <h1>User Home Page URLs</h1>
+    <table>
+      <thead>
+        <tr>
+          <th>URL Path</th>
+          <th>View Function</th>
+          <th>Purpose</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody id="home-table-body"></tbody>
+    </table>
+  </section>
+
+  <!-- GARAGE SECTION -->
+  <section id="garage-section" class="section">
+    <div class="navbar">
+      <a href="#">Garage Dashboard</a>
+      <a href="#">Profile</a>
+      <a href="#">Services</a>
+      <a href="#">Add/Edit Services</a>
+      <a href="#">Bookings</a>
+      <a href="#">Complete Booking</a>
+      <a href="#" onclick="showSection('auth-section')">Logout</a>
+    </div>
+    <h1>Garage Owner URLs</h1>
+    <table>
+      <thead>
+        <tr>
+          <th>URL Path</th>
+          <th>View Function</th>
+          <th>Purpose</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody id="garage-table-body"></tbody>
+    </table>
+  </section>
+
+  <!-- ADMIN SECTION -->
+  <section id="admin-section" class="section">
+    <div class="navbar">
+      <a href="#">Admin Dashboard</a>
+      <a href="#">Users</a>
+      <a href="#">Garages</a>
+      <a href="#">Bookings</a>
+      <a href="#">Payments</a>
+      <a href="#">Reviews</a>
+      <a href="#" onclick="showSection('auth-section')">Logout</a>
+    </div>
+    <h1>Admin Panel URLs</h1>
+    <table>
+      <thead>
+        <tr>
+          <th>URL Path</th>
+          <th>View Function</th>
+          <th>Purpose</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody id="admin-table-body"></tbody>
+    </table>
+  </section>
+
+  <script>
+    const authUrls = [
+      { path: 'login/', view: 'custom_login_view', purpose: 'User login' },
+      { path: 'register/', view: 'register_user_view', purpose: 'User registration' },
+      { path: 'logout/', view: 'logout_view', purpose: 'Logout' },
+      { path: 'dashboard/', view: 'dashboard_view', purpose: 'User dashboard' },
+      { path: 'password-reset/', view: 'PasswordResetRequestAPIView', purpose: 'Request password reset' },
+      { path: 'password-reset-confirm/<int:uid>/<str:token>/', view: 'PasswordResetConfirmAPIView', purpose: 'Confirm password reset' },
+    ];
+
+    const homeUrls = [
+      { path: 'garages/', view: 'user_garage_list', purpose: 'List garages' },
+      { path: 'services/<int:garage_id>/', view: 'user_service_list', purpose: 'Services of a garage' },
+      { path: 'bookings/', view: 'user_booking_list', purpose: 'User\'s bookings' },
+      { path: 'book/<int:service_id>/', view: 'book_service', purpose: 'Book a service' },
+      { path: 'payments/', view: 'user_payment_list', purpose: 'Payment history' },
+      { path: 'review/<int:garage_id>/', view: 'leave_review', purpose: 'Leave a review' },
+    ];
+
+    const garageUrls = [
+      { path: 'garage/dashboard/', view: 'garage_dashboard', purpose: 'Garage dashboard' },
+      { path: 'garage/profile/', view: 'manage_garage_profile', purpose: 'Garage profile management' },
+      { path: 'garage/services/', view: 'manage_services', purpose: 'List all services' },
+      { path: 'garage/service/add/', view: 'add_service', purpose: 'Add new service' },
+      { path: 'garage/service/<int:pk>/edit/', view: 'edit_service', purpose: 'Edit existing service' },
+      { path: 'garage/bookings/', view: 'manage_bookings', purpose: 'View/manage bookings' },
+      { path: 'garage/booking/<int:pk>/complete/', view: 'mark_booking_complete', purpose: 'Mark booking as complete' },
+    ];
+
+    const adminUrls = [
+      { path: 'admin/dashboard/', view: 'admin_dashboard', purpose: 'Admin dashboard' },
+      { path: 'admin/users/', view: 'admin_user_list', purpose: 'Manage users' },
+      { path: 'admin/garages/', view: 'admin_garage_list', purpose: 'Manage garages' },
+      { path: 'admin/bookings/', view: 'admin_booking_list', purpose: 'Manage bookings' },
+      { path: 'admin/payments/', view: 'admin_payment_list', purpose: 'Manage payments' },
+      { path: 'admin/reviews/', view: 'admin_review_list', purpose: 'Manage reviews' },
+    ];
+
+    function renderTable(urls, tableId) {
+      const tableBody = document.getElementById(tableId);
+      if (!tableBody) return;
+      urls.forEach(({ path, view, purpose }) => {
+        const row = document.createElement('tr');
+        row.innerHTML = `
+          <td><code>${path}</code></td>
+          <td>${view}</td>
+          <td>${purpose}</td>
+          <td><button class="copy-btn" onclick="copyToClipboard('${path}')">Copy</button></td>
+        `;
+        tableBody.appendChild(row);
+      });
+    }
+
+    function copyToClipboard(text) {
+      navigator.clipboard.writeText(text).then(() => {
+        alert(`Copied: ${text}`);
+      });
+    }
+
+    function showSection(id) {
+      document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+      document.getElementById(id).classList.add('active');
+    }
+
+    // Init
+    renderTable(authUrls, 'auth-table-body');
+    renderTable(homeUrls, 'home-table-body');
+    renderTable(garageUrls, 'garage-table-body');
+    renderTable(adminUrls, 'admin-table-body');
+  </script>
+</body>
+</html>
